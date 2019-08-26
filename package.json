@@ -1,0 +1,32 @@
+{
+  "name": "get-holidays",
+  "version": "1.0.0",
+  "description": "CLI Tool made while BeCode Liège - Hamilton 2.12",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "javascript",
+    "node",
+    "js",
+    "tool",
+    "tools",
+    "command",
+    "line"
+  ],
+  "author": "Lindsay Vannebenne",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "boxen": "^4.1.0",
+    "chalk": "^2.4.2",
+    "country-list": "^2.2.0",
+    "figlet": "^1.2.3",
+    "validator": "^11.1.0"
+  },
+  "bin": {
+    "get-holidays": "./index.js"
+  }
+}
