@@ -33,3 +33,6 @@ If not provided, the year is determined as "Current year"
 
 ### Maintainers
 
+* Lindsay Vannebenne (lvannebenne)
+https://github.com/LVannebenne/get-holidays-CLI
+
