@@ -6,52 +6,75 @@ const chalk = require('chalk');
 const figlet = require('figlet');
 const boxen = require('boxen');
 const { getCode, getName } = require('country-list');
-const currentYear = new Date().getFullYear();
+let holiYear = new Date().getFullYear();
 const api = "https://date.nager.at/api/v2/publicholidays/";
-const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const error = chalk.bold.red;
+
 
 process.argv.forEach((val, index) => {
-	if (validator.isAlpha(val)) {
-
-		let code = getCode(val);
-
-		if (code == undefined) {
-			console.log("Erreur. Le paramètre entré n'est pas un nom de pays")
-		} else {
-			figlet('Get-Holidays', {
-				font: 'Contessa',
-				horizontalLayout: 'default',
-				verticalLayout: 'default'
-			}, function (err, data) {
-				if (err) {
-					console.log('Something went wrong...');
-					console.error(err);
-					return;
-				}
-				
-				console.log(boxen(chalk.bold.blue(data), {padding: 1, borderStyle: 'round'}))
-			})
-			console.log(chalk.bgBlack(`There is the official public Holidays dates for ${val} in ${currentYear}`));
-			let holidays = axios.get(`${api}${currentYear}/${code}`)
-				.then(response => {
-					response.data.forEach(day => {
-						let fixed = "";
-						if (day.fixed) {
-							fixed = "C'est une date fixe."
-						} else {
-							fixed = "C'est une date variable."
-						}
-						let dateHol = new Date(day.date);
-						console.log(chalk.bold.bgBlack.blueBright(`-- ${days[dateHol.getDay()]} ${dateHol.getDate()} ${months[dateHol.getMonth()]} ${dateHol.getFullYear()} --`));
-						console.log(chalk.bold.green(day.localName) + ` (${day.name}). ${fixed}
-						`);
-					})
-				}).catch(error => {
-					console.error(error);
-				})
+	if (val.charAt(0) != "/") {
+		if (validator.isInt(val) && val.length == 4) {
+			if(val < new Date().getFullYear() + 20 && val > new Date().getFullYear() - 50)
+			{
+				holiYear = val;
+			} 
+			else 
+			{	
+				console.log(error("Year entered is not in the available scope. Using current year instead."));
+			}
 		}
+		else if (validator.isAlpha(val)) {
 
+			let code = getCode(val);
+
+			if (code == undefined) 
+			{
+				console.log("Error. Country name not correctly spelled. Any country code found.")
+			} 
+			else
+			{
+				figlet('Get-Holidays', {
+					font: 'Contessa',
+					horizontalLayout: 'default',
+					verticalLayout: 'default'
+				}, function (err, data) {
+					if (err) {
+						console.log('Something went wrong...');
+						console.error(err);
+						return;
+					}
+
+					console.log(boxen(chalk.bold.blue(data), { padding: 1, borderStyle: 'round' }))
+				})
+				
+				console.log(chalk.bgBlack(`There is the official public Holidays dates for ${val} in ${holiYear}`));
+				
+				let holidays = axios.get(`${api}${holiYear}/${code}`)
+					.then(response => {
+						response.data.forEach(day => {
+							let fixed = "";
+							if (day.fixed) {
+								fixed = "It's a fixed date."
+							} else {
+								fixed = "It's a variable date."
+							}
+							let dateHol = new Date(day.date);
+							console.log(chalk.bold.bgBlack.blueBright(`-- ${days[dateHol.getDay()]} ${dateHol.getDate()} ${months[dateHol.getMonth()]} ${dateHol.getFullYear()} --`));
+							console.log(chalk.bold.green(day.localName) + ` (${day.name}). ${fixed} Start date : ${day.launchYear ? day.launchYear : 'undetermined'}.
+							`);
+						})
+					}).catch(error => {
+						console.error(error);
+					})
+			}
+
+		}
+		else 
+		{
+			console.log("No correct parameter received. Please enter 'man get-holidays' for more information.");
+		}
 	}
 });
 
