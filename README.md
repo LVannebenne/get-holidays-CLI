@@ -36,3 +36,10 @@ If not provided, the year is determined as "Current year"
 * Lindsay Vannebenne (lvannebenne)
 https://github.com/LVannebenne/get-holidays-CLI
 
+### More...
+
+There's a manual, you can access it with 
+
+```
+man get-holidays
+```
