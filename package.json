@@ -1,5 +1,5 @@
 {
-  "name": "get-holidays",
+  "name": "@lvannebenne/get-holidays",
   "version": "1.0.0",
   "description": "CLI Tool made while BeCode Liège - Hamilton 2.12",
   "main": "index.js",
