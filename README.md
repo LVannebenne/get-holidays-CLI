@@ -24,6 +24,10 @@ Use the "get-holidays" command, followed by the country name whose you want holi
 get-holidays Belgium 
 ```
 
-You can also precise the year, it's an optionnal parameter.
+You can also provide the year, it's an optionnal parameter.
 
+``` 
+get-holidays 2024 Belgium 
+```
+If not provided, the year is determined as "Current year"
 
